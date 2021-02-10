@@ -14,7 +14,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Search;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace CodeEditor {
     public sealed partial class MainPage : Page {
@@ -32,16 +34,52 @@ namespace CodeEditor {
 
             // User would like to open a single file
             if (OpenFile.IsSelected) {
-                await PickFile();
+                StorageFile file = await PickFile();
+
+                // Update UI after selection
+                UpdateUI(new StorageFile[] { file });
 
             // User would like to open an entire folder
             } else if (OpenDir.IsSelected) {
-                await PickFolder();
+                StorageFolder folder = await PickFolder();
+
+                // Get every file from the folder
+                IReadOnlyList<StorageFile> files = await folder.CreateFileQuery().GetFilesAsync();
+
+                // Update UI with list of files
+                UpdateUI(files.ToArray());
+            }
+        }
+
+        /** Update the user interface once files have been selected */
+        private void UpdateUI(StorageFile[] files) {
+
+            // Update hamburger icons to reflect what the user sees
+            OpenFile.IsSelected = false;
+            OpenDir.IsSelected  = false;
+            Explorer.IsSelected = true;
+
+            // Check if files exists
+            if (files != null) {
+
+                // Ensure list is not empty
+                if (files.Length > 0) {
+                    Results.Text = "";
+
+                    // Print the names of each file to the results element
+                    foreach (StorageFile file in files) {
+                        Results.Text += file.Name + "\r\n";
+                    }
+                } else {
+                    // List is empty, alert user
+                    new MessageDialog("No files were selected or you opened an empty folder.\r\nTry again...").ShowAsync();
+                }
             }
         }
 
         /** Open file picker to allow user to select a single file */
         private async Task<StorageFile> PickFile() {
+
             // Create file-picker
             var picker = new FileOpenPicker {
                 ViewMode = PickerViewMode.Thumbnail
@@ -53,18 +91,12 @@ namespace CodeEditor {
             // Get the file the user has picked
             StorageFile file = await picker.PickSingleFileAsync();
 
-            // Update application content
-            if (file != null) {
-                Results.Text = file.Name;
-                OpenFile.IsSelected = false;
-                Explorer.IsSelected = true;
-            }
-
             return file;
         }
 
         /** Open folder picker to allow user to select an entire folder */
         private async Task<StorageFolder> PickFolder() {
+
             // Create folder-picker
             var picker = new FolderPicker {
                 ViewMode = PickerViewMode.Thumbnail
@@ -75,13 +107,6 @@ namespace CodeEditor {
 
             // Allow user to select folder from the file-system
             StorageFolder folder = await picker.PickSingleFolderAsync();
-
-            // Update application content
-            if (folder != null) {
-                Results.Text = folder.Name;
-                OpenDir.IsSelected = false;
-                Explorer.IsSelected = true;
-            }
 
             return folder;
         }
