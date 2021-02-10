@@ -27,18 +27,7 @@ namespace CodeEditor {
         }
 
         private async void MyListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (OpenFile.IsSelected) {
-                var picker = new Windows.Storage.Pickers.FileOpenPicker();
-                picker.FileTypeFilter.Add("*");
-                picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-                Windows.Storage.StorageFile file = await picker.PickSingleFileAsync();
-
-                if (file != null) {
-                    Results.Text = file.Name;
-                    OpenFile.IsSelected = false;
-                    Explorer.IsSelected = true;
-                }
-            } else if (OpenDir.IsSelected) {
+            if (OpenDir.IsSelected) {
                 var picker = new Windows.Storage.Pickers.FileOpenPicker();
                 picker.FileTypeFilter.Add("*");
                 picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
