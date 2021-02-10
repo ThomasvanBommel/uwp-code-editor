@@ -16,6 +16,7 @@
         <x:Double x:Key="NavOpenWidth">200</x:Double>
 
         <Thickness x:Key="IconMargin" Left="-12" Top="3"></Thickness>
+        <Thickness x:Key="HamburgerOptionMargin" Left="{StaticResource NavFontSize}"></Thickness>
 
     </Page.Resources>
     
@@ -31,26 +32,26 @@
 
         <SplitView Name="MySplitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="{ StaticResource NavOpenWidth }" CompactPaneLength="{ StaticResource NavCloseWidth }" HorizontalAlignment="Left">
             <SplitView.Pane>
-                <ListBox SelectionMode="Single" Name="MyListBox" SelectionChanged="MyListBox_SelectionChanged">
+                <ListBox SelectionMode="Single" Name="HamburgerMenu" SelectionChanged="HamburgerMenu_SelectionChanged">
+                    
                     <ListBoxItem Name="Explorer">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }" Text="&#xE71E;" TextAlignment="Center" Margin="{ StaticResource IconMargin }" />
-                            <TextBlock Text="Explorer" FontSize="{ StaticResource NavFontSize }" >
-                                <TextBlock.Margin>
-                                    <Thickness Left="{StaticResource NavFontSize}"></Thickness>
-                                </TextBlock.Margin>
-                            </TextBlock>
+                            <TextBlock FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }"  Margin="{ StaticResource IconMargin }" TextAlignment="Center" Text="&#xE71E;" />
+                            <TextBlock Text="Explorer" FontSize="{ StaticResource NavFontSize }" Margin="{ StaticResource HamburgerOptionMargin }" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem Name="OpenFile">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }" Text="&#xE8E5;" TextAlignment="Center" Margin="{ StaticResource IconMargin }" />
+                            <TextBlock Text="Open File" FontSize="{ StaticResource NavFontSize }" Margin="{ StaticResource HamburgerOptionMargin }" />
                         </StackPanel>
                     </ListBoxItem>
 
                     <ListBoxItem Name="OpenDir">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }" Text="&#xE8DA;" TextAlignment="Center" Margin="{ StaticResource IconMargin }" />
-                            <TextBlock Text="Open Directory" FontSize="{ StaticResource NavFontSize }" >
-                                <TextBlock.Margin>
-                                    <Thickness Left="{StaticResource NavFontSize}"></Thickness>
-                                </TextBlock.Margin>
-                            </TextBlock>
+                            <TextBlock Text="Open Directory" FontSize="{ StaticResource NavFontSize }" Margin="{ StaticResource HamburgerOptionMargin }" />
                         </StackPanel>
                     </ListBoxItem>
 
