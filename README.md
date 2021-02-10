@@ -10,4 +10,4 @@ Editor made using the universal windows platform for class assignment
 
 ## Output Image
 
-![capture.png][capture.png]
+![capture.png](capture.png "Application UI")
