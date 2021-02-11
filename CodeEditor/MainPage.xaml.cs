@@ -116,10 +116,7 @@ namespace CodeEditor {
                         btn.Tag = files[i];
 
                         // Add hyperlink click event
-                        btn.Click += (object sender, RoutedEventArgs e) => {
-                            StorageFile file = (StorageFile) ((HyperlinkButton) sender).Tag;
-                            HyperlinkFile_Clicked(file);
-                        };
+                        btn.Click += HyperlinkFile_Clicked;
 
                         // Set grid row to i (increments)
                         Grid.SetRow(btn, i);
@@ -135,12 +132,22 @@ namespace CodeEditor {
             }
         }
 
-        /** Hyperlink click event to start editing the requested file */
-        private async void HyperlinkFile_Clicked(StorageFile file) {
+        private async void HyperlinkFile_Clicked(object sender, RoutedEventArgs e) {
+            HyperlinkButton btn = (HyperlinkButton) sender;
+            StorageFile file = (StorageFile) btn.Tag;
+
+            if (!await AttemptOpenHyperlinkFile(file)) {
+                btn.Click -= HyperlinkFile_Clicked;
+                btn.Foreground = new SolidColorBrush(Windows.UI.Colors.LightGray);
+                return;
+            }
 
             // Set title to the file name of the selected hyperlink file
             Title.Text = file.Name;
+        }
 
+        /** Hyperlink click event to start editing the requested file */
+        private async Task<bool> AttemptOpenHyperlinkFile(StorageFile file) {
             try {
                 // Try to read selected file; ReadLinesAsync doesn't like some files...
                 IList<string> lines = await FileIO.ReadLinesAsync(file);
@@ -151,7 +158,11 @@ namespace CodeEditor {
 
                 // Inform the user we were unable to read this type of file
                 new MessageDialog("Unable to read this type of file: Incorrect unicode encoding").ShowAsync();
+
+                return false;
             }
+
+            return true;
         }
 
         /** Open file picker to allow user to select a single file */
