@@ -22,28 +22,6 @@ namespace CodeEditor {
     public sealed partial class MainPage : Page {
         public MainPage() {
             InitializeComponent();
-
-            //Border b = new Border();
-            //b.Background = new SolidColorBrush(Windows.UI.Colors.Red);
-
-            //RowDefinition r = new RowDefinition();
-            //r.Height = GridLength.Auto;
-
-            //TextBlock t = new TextBlock();
-            //t.Text = "t1";
-            //Grid.SetRow(t, 0);
-
-            //RowDefinition r2 = new RowDefinition();
-            //r2.Height = GridLength.Auto;
-            //TextBlock t2 = new TextBlock();
-            //t2.Text = "t2";
-            //Grid.SetRow(t, 1);
-
-            //Results.RowDefinitions.Add(r2);
-
-
-            //Results.Children.Add(t2);
-
         }
 
         /** Toggle hamburger menu */
@@ -86,22 +64,23 @@ namespace CodeEditor {
 
                 // Ensure list is not empty
                 if (files.Length > 0) {
+
+                    // For each file provided
                     for(int i = 0; i < files.Length; i++) {
+
+                        // New row for the grid
                         RowDefinition row = new RowDefinition();
                         row.Height = GridLength.Auto;
 
+                        // Hyperlink button for user to click when wanting to edit this file
                         HyperlinkButton btn = new HyperlinkButton();
                         btn.Content = files[i].Name;
                         btn.Margin = new Thickness(5, 5, 5, 0);
-                        //btn.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
-                        //btn.visual
-                        //btn.PointerEntered += (object sender, PointerRoutedEventArgs e) => { 
-                        //    btn.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
-                        //};
-                        //btn.PointerEntered += PointerEnter;
 
+                        // Set grid row to i (increments)
                         Grid.SetRow(btn, i);
 
+                        // Add hyperlink to grid
                         FileSelection.RowDefinitions.Add(row);
                         FileSelection.Children.Add(btn);
                     }
