@@ -16,7 +16,9 @@
         <x:Double x:Key="NavOpenWidth">200</x:Double>
 
         <Thickness x:Key="IconMargin" Left="-12" Top="3"></Thickness>
-        <Thickness x:Key="HamburgerOptionMargin" Left="{StaticResource NavFontSize}"></Thickness>
+        <Thickness x:Key="HamburgerOptionMargin" Left="{ StaticResource NavFontSize }"></Thickness>
+        <Thickness x:Key="TitleMargin" Left="{ StaticResource NavCloseWidth }"></Thickness>
+        
 
     </Page.Resources>
     
@@ -25,12 +27,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <RelativePanel>
-            <Button Name="HamburgerButton" Width="{ StaticResource NavCloseWidth }" Padding="0, 10" FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Content="&#xE700;" Click="HamburgerButton_Click" />
+
+        <RelativePanel Background="#f50">
+            <Button Name="HamburgerButton" Width="{ StaticResource NavCloseWidth }" Padding="0, 10" Foreground="White" FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Content="&#xE700;" Click="HamburgerButton_Click" />
+            <TextBlock Name="Title" Text="undefined" Margin="{ StaticResource TitleMargin }" Foreground="White" Padding="10" />
         </RelativePanel>
 
-        <SplitView Name="MySplitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="{ StaticResource NavOpenWidth }" CompactPaneLength="{ StaticResource NavCloseWidth }" HorizontalAlignment="Left">
+        <SplitView Name="MySplitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="{ StaticResource NavOpenWidth }" CompactPaneLength="{ StaticResource NavCloseWidth }" HorizontalAlignment="Stretch">
             <SplitView.Pane>
                 <ListBox SelectionMode="Single" Name="HamburgerMenu" SelectionChanged="HamburgerMenu_SelectionChanged">
                     
@@ -57,11 +60,20 @@
 
                 </ListBox>
             </SplitView.Pane>
-            
+
             <SplitView.Content>
-                <TextBlock Name="Results" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="100" MaxWidth="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid x:Name="FileSelection" Grid.Column="0" />
+                    <Grid x:Name="Editor" Grid.Column="1" Background="#dddddd">
+                        <TextBox PlaceholderText="Select a file to begin editing!" />
+                    </Grid>
+                </Grid>
             </SplitView.Content>
-            
+
         </SplitView>
     </Grid>
 </Page>
