@@ -30,8 +30,33 @@ namespace CodeEditor {
             MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
         }
 
+        /** Toggles the FileSelectionExplorer */
+        private void ToggleFileSelectionExplorer() {
+            // Ensure the explorer is active (not loading the application)
+            if (FileSelectionExplorer != null) {
+
+                // Set visibility based on Explorer (search hamburger icon) being selected
+                FileSelectionExplorer.Visibility = Explorer.IsSelected ? Visibility.Visible : Visibility.Collapsed;
+
+                // Check if the FileSelectionExplorer is visible and has children
+                if (FileSelectionExplorer.Visibility == Visibility.Visible && FileSelectionExplorer.Children.Count > 0) {
+
+                    // Set panels minimum width (looks nicer)
+                    FileSelectionExplorer.MinWidth = 100;
+
+                // SelectionExplorer is not visible or does not have children
+                } else {
+                    // Set panels minimum width (to allow collapse)
+                    FileSelectionExplorer.MinWidth = 0;
+                }
+            }
+        }
+
         /** Hamburger menu item has changed! */
         private async void HamburgerMenu_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            
+            // Toggle FileSelectionExplorer
+            ToggleFileSelectionExplorer();
 
             // User would like to open a single file
             if (OpenFile.IsSelected) {
@@ -41,6 +66,8 @@ namespace CodeEditor {
                     // Update UI after selection
                     UpdateUI(new StorageFile[] { file });
                 }
+
+                OpenFile.IsSelected = false;
 
             // User would like to open an entire folder
             } else if (OpenDir.IsSelected) {
@@ -53,6 +80,8 @@ namespace CodeEditor {
                     // Update UI with list of files
                     UpdateUI(files.ToArray());
                 }
+
+                OpenDir.IsSelected = false;
             }
         }
 
@@ -96,8 +125,8 @@ namespace CodeEditor {
                         Grid.SetRow(btn, i);
 
                         // Add hyperlink to grid
-                        FileSelection.RowDefinitions.Add(row);
-                        FileSelection.Children.Add(btn);
+                        FileSelectionExplorer.RowDefinitions.Add(row);
+                        FileSelectionExplorer.Children.Add(btn);
                     }
                 } else {
                     // List is empty, alert user
@@ -159,10 +188,11 @@ namespace CodeEditor {
             return folder;
         }
 
+        /** Reset the UI's default values (empty, as if no file or folder was selected yet) */
         private void ResetUI() {
             Title.Text = "undefined";
             Editor.Text = "";
-            FileSelection.Children.Clear();
+            FileSelectionExplorer.Children.Clear();
         }
     }
 }
