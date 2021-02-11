@@ -67,6 +67,7 @@ namespace CodeEditor {
                     UpdateUI(new StorageFile[] { file });
                 }
 
+                // Deselect OpenFile hamburger menu item
                 OpenFile.IsSelected = false;
 
             // User would like to open an entire folder
@@ -81,8 +82,12 @@ namespace CodeEditor {
                     UpdateUI(files.ToArray());
                 }
 
+                // Deselect OpenDir hamburger menu item
                 OpenDir.IsSelected = false;
             }
+
+            // Close hamburger menu
+            MySplitView.IsPaneOpen = false;
         }
 
         /** Update the user interface once files have been selected */
