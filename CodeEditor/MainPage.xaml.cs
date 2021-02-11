@@ -132,12 +132,18 @@ namespace CodeEditor {
             }
         }
 
+        /** User has selected a file they would like to load into the editor */
         private async void HyperlinkFile_Clicked(object sender, RoutedEventArgs e) {
             HyperlinkButton btn = (HyperlinkButton) sender;
             StorageFile file = (StorageFile) btn.Tag;
 
+            // Await open attempt
             if (!await AttemptOpenHyperlinkFile(file)) {
+
+                // Disable hyperlink click event
                 btn.Click -= HyperlinkFile_Clicked;
+
+                // Change color so the user knows this hyperlink will no longer work
                 btn.Foreground = new SolidColorBrush(Windows.UI.Colors.LightGray);
                 return;
             }
@@ -159,9 +165,11 @@ namespace CodeEditor {
                 // Inform the user we were unable to read this type of file
                 new MessageDialog("Unable to read this type of file: Incorrect unicode encoding").ShowAsync();
 
+                // Failed attempt
                 return false;
             }
 
+            // Successful attempt!
             return true;
         }
 
