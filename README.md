@@ -5,9 +5,11 @@ Editor made using the universal windows platform
 ## Features
 
  - Hamburger menu
- - Select a single file
- - Select a folder to display all files in that folder
+ - Load a single file
+ - Load a folder to display all files in that folder
+ - Edit individual files
+ - ~~Save individual files~~ *soon*
 
 ## Output Image
 
-![capture.png](capture.png "Application UI")
+![gui.png](gui.png "Application UI")
