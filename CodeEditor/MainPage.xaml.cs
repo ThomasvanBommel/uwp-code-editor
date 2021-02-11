@@ -22,6 +22,7 @@ namespace CodeEditor {
     public sealed partial class MainPage : Page {
         public MainPage() {
             InitializeComponent();
+            ResetUI();
         }
 
         /** Toggle hamburger menu */
@@ -36,23 +37,30 @@ namespace CodeEditor {
             if (OpenFile.IsSelected) {
                 StorageFile file = await PickFile();
 
-                // Update UI after selection
-                UpdateUI(new StorageFile[] { file });
+                if (file != null) {
+                    // Update UI after selection
+                    UpdateUI(new StorageFile[] { file });
+                }
 
             // User would like to open an entire folder
             } else if (OpenDir.IsSelected) {
                 StorageFolder folder = await PickFolder();
 
-                // Get every file from the folder
-                IReadOnlyList<StorageFile> files = await folder.CreateFileQuery().GetFilesAsync();
+                if (folder != null) {
+                    // Get every file from the folder
+                    IReadOnlyList<StorageFile> files = await folder.CreateFileQuery().GetFilesAsync();
 
-                // Update UI with list of files
-                UpdateUI(files.ToArray());
+                    // Update UI with list of files
+                    UpdateUI(files.ToArray());
+                }
             }
         }
 
         /** Update the user interface once files have been selected */
         private void UpdateUI(StorageFile[] files) {
+            
+            // Reset the UI (removing old files + text, if there are any)
+            ResetUI();
 
             // Update hamburger icons to reflect what the user sees
             OpenFile.IsSelected = false;
@@ -76,6 +84,13 @@ namespace CodeEditor {
                         HyperlinkButton btn = new HyperlinkButton();
                         btn.Content = files[i].Name;
                         btn.Margin = new Thickness(5, 5, 5, 0);
+                        btn.Tag = files[i];
+
+                        // Add hyperlink click event
+                        btn.Click += (object sender, RoutedEventArgs e) => {
+                            StorageFile file = (StorageFile) ((HyperlinkButton) sender).Tag;
+                            HyperlinkFile_Clicked(file);
+                        };
 
                         // Set grid row to i (increments)
                         Grid.SetRow(btn, i);
@@ -88,6 +103,25 @@ namespace CodeEditor {
                     // List is empty, alert user
                     new MessageDialog("No files were selected or you opened an empty folder.\r\nTry again...").ShowAsync();
                 }
+            }
+        }
+
+        /** Hyperlink click event to start editing the requested file */
+        private async void HyperlinkFile_Clicked(StorageFile file) {
+
+            // Set title to the file name of the selected hyperlink file
+            Title.Text = file.Name;
+
+            try {
+                // Try to read selected file; ReadLinesAsync doesn't like some files...
+                IList<string> lines = await FileIO.ReadLinesAsync(file);
+
+                // Add file contents to the editor
+                Editor.Text = string.Join("\n", lines);
+            } catch {
+
+                // Inform the user we were unable to read this type of file
+                new MessageDialog("Unable to read this type of file: Incorrect unicode encoding").ShowAsync();
             }
         }
 
@@ -123,6 +157,12 @@ namespace CodeEditor {
             StorageFolder folder = await picker.PickSingleFolderAsync();
 
             return folder;
+        }
+
+        private void ResetUI() {
+            Title.Text = "undefined";
+            Editor.Text = "";
+            FileSelection.Children.Clear();
         }
     }
 }

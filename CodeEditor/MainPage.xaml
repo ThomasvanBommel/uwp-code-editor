@@ -30,7 +30,7 @@
 
         <RelativePanel Background="#f50">
             <Button Name="HamburgerButton" Width="{ StaticResource NavCloseWidth }" Padding="0, 10" Foreground="White" FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Content="&#xE700;" Click="HamburgerButton_Click" />
-            <TextBlock Name="Title" Text="undefined" Margin="{ StaticResource TitleMargin }" Foreground="White" Padding="10" />
+            <TextBlock Name="Title" Margin="{ StaticResource TitleMargin }" Foreground="White" Padding="10" />
         </RelativePanel>
 
         <SplitView Name="MySplitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="{ StaticResource NavOpenWidth }" CompactPaneLength="{ StaticResource NavCloseWidth }" HorizontalAlignment="Stretch">
@@ -68,8 +68,8 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid x:Name="FileSelection" Grid.Column="0" />
-                    <Grid x:Name="Editor" Grid.Column="1" Background="#dddddd">
-                        <TextBox PlaceholderText="Select a file to begin editing!" />
+                    <Grid Grid.Column="1" Background="#dddddd">
+                        <TextBox Name="Editor" PlaceholderText="Select a file to begin editing!" AcceptsReturn="True" />
                     </Grid>
                 </Grid>
             </SplitView.Content>
