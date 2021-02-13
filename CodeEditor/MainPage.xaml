@@ -19,8 +19,6 @@
         <Thickness x:Key="IconMargin" Left="-12" Top="3"></Thickness>
         <Thickness x:Key="HamburgerOptionMargin" Left="{ StaticResource NavFontSize }"></Thickness>
         <Thickness x:Key="TitleMargin" Left="{ StaticResource NavCloseWidth }"></Thickness>
-        
-
     </Page.Resources>
     
     <Grid>
@@ -29,10 +27,23 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <RelativePanel Background="#f50">
-            <Button Name="HamburgerButton" Width="{ StaticResource NavCloseWidth }" Padding="0, 10" Foreground="White" FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Content="&#xE700;" Click="HamburgerButton_Click" />
-            <TextBlock Name="Title" Margin="{ StaticResource TitleMargin }" Foreground="White" Padding="10" />
-        </RelativePanel>
+        <Grid Background="#f50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Name="HamburgerButton" Grid.Column="0" Width="{ StaticResource NavCloseWidth }" Padding="0, 10" Foreground="White" FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Content="&#xE700;" Click="HamburgerButton_Click" />
+            <TextBlock Name="Title" Foreground="White" Grid.Column="1" Padding="10" />
+            <TextBlock HorizontalAlignment="Stretch" Grid.Column="2" />
+            <Button Name="SaveBtn" Click="SaveBtn_Click" FontFamily="{ StaticResource IconFontFamily }" Background="Transparent" Grid.Column="3" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }"  Margin="{ StaticResource IconMargin }" Content="&#xE74E;">
+                <Button.Resources>
+                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" />
+                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="Gray" />
+                </Button.Resources>
+            </Button>
+        </Grid>
 
         <SplitView Name="MySplitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="{ StaticResource NavOpenWidth }" CompactPaneLength="{ StaticResource NavCloseWidth }" HorizontalAlignment="Stretch">
             <SplitView.Pane>

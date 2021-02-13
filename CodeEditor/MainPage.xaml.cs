@@ -20,6 +20,8 @@ using Windows.UI.Popups;
 
 namespace CodeEditor {
     public sealed partial class MainPage : Page {
+        StorageFile selected_file;
+
         public MainPage() {
             InitializeComponent();
             ResetUI();
@@ -165,6 +167,9 @@ namespace CodeEditor {
 
                 // Add file contents to the editor
                 Editor.Text = string.Join("\n", lines);
+
+                // Set our selected file
+                selected_file = file;
             } catch {
 
                 // Inform the user we were unable to read this type of file
@@ -216,7 +221,21 @@ namespace CodeEditor {
         private void ResetUI() {
             Title.Text = "undefined";
             Editor.Text = "";
+            selected_file = null;
             FileSelectionExplorer.Children.Clear();
+        }
+
+        /** Save button has been pressed by the user */
+        private async void SaveBtn_Click(object sender, RoutedEventArgs e) {
+            if (selected_file != null) {
+                try {
+                    // Write editor contents back to the selected file
+                    await FileIO.WriteTextAsync(selected_file, Editor.Text);
+                    new MessageDialog("Saved file successfully").ShowAsync();
+                } catch {
+                    new MessageDialog("Error has occured when trying to save the file").ShowAsync();
+                }
+            }
         }
     }
 }

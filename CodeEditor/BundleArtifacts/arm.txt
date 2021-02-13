@@ -1,0 +1,2 @@
+MainPackage=C:\Users\thomas\source\repos\CodeEditor\CodeEditor\bin\ARM\Debug\CodeEditor_1.0.0.0_ARM_Debug.msix
+SymbolPackage=C:\Users\thomas\source\repos\CodeEditor\CodeEditor\obj\ARM\Debug\Symbols\CodeEditor_1.0.0.0_ARM_Debug.appxsym
