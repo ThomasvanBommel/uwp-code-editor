@@ -14,9 +14,10 @@
         <x:String x:Key="EditorBackgroundColor">White</x:String>
 
         <x:Double x:Key="NavCloseWidth">50</x:Double>
-        <x:Double x:Key="NavOpenWidth">200</x:Double>
+        <x:Double x:Key="NavOpenWidth">240</x:Double>
 
         <Thickness x:Key="IconMargin" Left="-12" Top="3"></Thickness>
+        <Thickness x:Key="BtnMargin" Left="-24" Top="3"></Thickness>
         <Thickness x:Key="HamburgerOptionMargin" Left="{ StaticResource NavFontSize }"></Thickness>
         <Thickness x:Key="TitleMargin" Left="{ StaticResource NavCloseWidth }"></Thickness>
     </Page.Resources>
@@ -67,6 +68,13 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }" Text="&#xE8DA;" TextAlignment="Center" Margin="{ StaticResource IconMargin }" />
                             <TextBlock Text="Open Directory" FontSize="{ StaticResource NavFontSize }" Margin="{ StaticResource HamburgerOptionMargin }" />
+                        </StackPanel>
+                    </ListBoxItem>
+
+                    <ListBoxItem Name="Author">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="{ StaticResource IconFontFamily }" FontSize="{ StaticResource NavFontSize }" Width="{ StaticResource NavCloseWidth }" Text="&#xE779;" TextAlignment="Center" Margin="{ StaticResource IconMargin }" />
+                            <TextBlock Text="View Author Details" FontSize="{ StaticResource NavFontSize }" Margin="{ StaticResource HamburgerOptionMargin }" />
                         </StackPanel>
                     </ListBoxItem>
 

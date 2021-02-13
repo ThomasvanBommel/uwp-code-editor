@@ -56,7 +56,12 @@ namespace CodeEditor {
 
         /** Hamburger menu item has changed! */
         private async void HamburgerMenu_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            
+
+            if (Author.IsSelected) {
+                Frame.Navigate(typeof(Author));
+                return;
+            }
+
             // Toggle FileSelectionExplorer
             ToggleFileSelectionExplorer();
 
