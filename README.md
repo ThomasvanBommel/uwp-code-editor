@@ -8,7 +8,7 @@ Editor made using the universal windows platform
  - Load a single file
  - Load a folder to display all files in that folder
  - Edit individual files
- - ~~Save individual files~~ *soon*
+ - Save individual files
 
 ## Output Image
 
