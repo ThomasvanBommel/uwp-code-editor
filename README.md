@@ -19,4 +19,4 @@ Future fixes
 
 ## Output Image
 
-![gui.png](gui.png "Application UI")
+![capture.png](capture.png "Application UI")
